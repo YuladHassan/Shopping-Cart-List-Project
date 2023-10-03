@@ -1,6 +1,9 @@
 const formItem = document.getElementById('item-form');
 const inputItem = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
+const clearBtn = document.getElementById('clear');
+
+const filter = document.getElementById('filter');
 
 
 function addItem(e){
@@ -19,6 +22,7 @@ e.preventDefault();
     // console.log(li);
 
     itemList.appendChild(li);
+    checkUI();n 
     inputItem.value='';
 
 }
@@ -38,3 +42,40 @@ function createIcon(classes){
     return icon;
 }
 formItem.addEventListener('submit',addItem);
+
+
+function removeItem(e){
+    if(e.target.parentElement.classList.contains('remove-item')){
+        if(confirm('are you sure !!')){
+
+            e.target.parentElement.parentElement.remove();
+        }
+    };
+    checkUI();
+    // e.target.remove();
+}
+itemList.addEventListener('click',removeItem);
+
+function clearAll(e){
+    // itemList.innerHTML=''; // this is also works
+    while(itemList.firstChild){
+        itemList.removeChild(itemList.firstChild); //this is faster
+    }
+    checkUI();
+}
+clearBtn.addEventListener('click',clearAll);
+
+
+function checkUI(){
+    const lists = document.querySelectorAll('li'); //all list element
+    if(lists.length==0){
+        clearBtn.style.display = 'none';
+        filter.style.display = 'none';
+    }else{
+        clearBtn.style.display = 'block';
+        filter.style.display = 'block';
+
+    }
+}
+
+checkUI();
