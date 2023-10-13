@@ -108,3 +108,6 @@ header h1{
 #checkbox{
   margin-bottom: 24px;
 }
+.edit-mode{
+  color:#ccc;
+}

@@ -3,6 +3,8 @@ const inputItem = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter');
+let isEditMode = false;
+const formBtn = formItem.querySelector('button'); //selectiong button from form 
 
 
 function displayItems(){
@@ -19,6 +21,14 @@ const newItem = inputItem.value;
     if(newItem===''){
         alert('fill the input form');
         return;
+    }
+
+    if(isEditMode){
+        const itemtoEdit = itemList.querySelector('.edit-mode');
+        removeFromStorage(itemtoEdit.textContent);
+        itemtoEdit.classList.remove('.edit-mode');
+        itemtoEdit.remove();
+        isEditMode = false;
     }
     addItem(newItem);
     addItemsToStorage(newItem);
@@ -82,9 +92,29 @@ function removeItem(e){
 
             passValue(e.target.parentElement.parentElement);
     
-    };
+    }
+    else{
+        setItemtoEdit(e.target);
+    }
 
     // e.target.remove();
+}
+
+function setItemtoEdit(item){
+    isEditMode = true;
+
+    itemList.querySelectorAll('li').forEach(item =>item.classList.remove('edit-mode'));
+    //changing item color
+    // item.style.color = '#ccc';
+    //we can change color using a css class also like below
+    item.classList.add('edit-mode'); //using css class named 'edit-mode'
+
+    //changing the button in edit mode
+
+        formBtn.innerHTML = '<i class= "fa-solid fa-pen"></i>  Update Item';
+        formBtn.style.backgroundColor = '#228B22';
+        inputItem.value = item.textContent;
+
 }
 function removeFromStorage(item){
     let itemsStorage = getItemsFromStorage();
@@ -130,6 +160,8 @@ function clearAll(e){
 
 // itemFilter.addEventListener('input', filterItems);
 function checkUI(){ 
+
+    inputItem.value ='';
     // console.log('checking');
     const lists = document.querySelectorAll('li'); //all list element
     if(lists.length===0){
@@ -140,6 +172,10 @@ function checkUI(){
         itemFilter.style.display = 'block';
 
     }
+
+    formBtn.innerHTML = '<i class ="fa-solid fa-plus"></i> Add Item';
+    formBtn.style.backgroundColor = '#333';
+    isEditMode = false;
 }
 
 // initialize app
