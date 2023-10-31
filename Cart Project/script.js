@@ -30,6 +30,13 @@ const newItem = inputItem.value;
         itemtoEdit.remove();
         isEditMode = false;
     }
+    else{
+        if(checkIfItemExists(newItem)){
+            alert('Item alredy exists');
+            return;
+        }
+    }
+
     addItem(newItem);
     addItemsToStorage(newItem);
     checkUI();
@@ -99,6 +106,12 @@ function removeItem(e){
 
     // e.target.remove();
 }
+
+function checkIfItemExists(item){
+    const getItemsFromStorage = getItemsFromStorage();
+    return getItemsFromStorage.includes(item);
+}
+//edit items
 
 function setItemtoEdit(item){
     isEditMode = true;
